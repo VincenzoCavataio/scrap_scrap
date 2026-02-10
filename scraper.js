@@ -1,6 +1,9 @@
+// Disabilita i warning di deprecazione (causati dalla libreria say)
+process.noDeprecation = true;
+
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
 const say = require('say');
 
 // Configurazione retry
@@ -10,24 +13,33 @@ const MAX_RETRIES = 3; // Numero massimo di tentativi per ogni episodio
 async function copyToClipboard(text) {
   return new Promise((resolve, reject) => {
     const platform = process.platform;
-    let command;
+    let command, args;
     
     if (platform === 'darwin') {
       // macOS
       command = 'pbcopy';
+      args = [];
     } else if (platform === 'win32') {
       // Windows
       command = 'clip';
+      args = [];
     } else {
       // Linux
-      command = 'xclip -selection clipboard';
+      command = 'xclip';
+      args = ['-selection', 'clipboard'];
     }
     
-    const proc = exec(command, (error) => {
-      if (error) {
-        reject(error);
-      } else {
+    const proc = spawn(command, args);
+    
+    proc.on('error', (error) => {
+      reject(error);
+    });
+    
+    proc.on('close', (code) => {
+      if (code === 0) {
         resolve();
+      } else {
+        reject(new Error(`Processo terminato con codice ${code}`));
       }
     });
     
@@ -93,9 +105,6 @@ async function main() {
     links.forEach((link, index) => {
       console.log(`${index + 1}. ${link}`);
     });
-    
-    // Pronuncia "SUCATO" (versione Node.js - usando il log)
-    console.log('\n🎉 SUCATO!\n');
     
     // Ora clicca su ogni link
     console.log('🖱️  Iniziando a cliccare sui link ed estrarre video URLs...\n');
