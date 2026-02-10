@@ -7,3 +7,5 @@
 *.env
 # Ignora i file di configurazione di Puppeteer
 /.local-chromium
+video_urls.txt
+video_urls.json
