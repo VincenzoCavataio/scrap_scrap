@@ -1,0 +1,9 @@
+/node_modules
+/.git
+/dist
+/logs
+/coverage
+*.log
+*.env
+# Ignora i file di configurazione di Puppeteer
+/.local-chromium
