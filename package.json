@@ -1,17 +1,14 @@
 {
-  "name": "sucamento-2.0",
+  "name": "puppeteer-scraper",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Scraper automatico con Puppeteer",
+  "main": "scraper.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node scraper.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "clipboardy": "^5.2.1",
-    "puppeteer": "^24.37.2"
+    "puppeteer": "^22.0.0",
+    "clipboardy": "^3.0.0",
+    "say": "^0.16.0"
   }
 }

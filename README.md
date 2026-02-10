@@ -53,6 +53,10 @@ Lo script genera 2 file:
 - **`video_urls.json`** - Formato JSON strutturato
 - **`video_urls.txt`** - Formato testo leggibile
 
+**BONUS:**
+- ✅ Gli URL video vengono **copiati automaticamente nella clipboard**
+- ✅ Alla fine sentirai un **"SUCATO"** vocale 🎉
+
 ## ⚙️ Configurazione
 
 ### Modalità invisibile (headless)
@@ -81,6 +85,8 @@ await newPage.waitForSelector('#player-iframe', { timeout: 30000 }); // 30 secon
    - Aspetta l'iframe `#player-iframe`
    - Estrae l'URL del video
 4. Salva tutto nei file di output
+5. **Copia gli URL nella clipboard** (pronti per CTRL+V)
+6. **Pronuncia "SUCATO"** 🎉
 
 ## 🔧 Problemi Comuni
 
