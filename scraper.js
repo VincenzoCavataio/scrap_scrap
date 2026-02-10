@@ -1,10 +1,40 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-const clipboardy = require('clipboardy');
+const { exec } = require('child_process');
 const say = require('say');
 
 // Configurazione retry
 const MAX_RETRIES = 3; // Numero massimo di tentativi per ogni episodio
+
+// Funzione per copiare nella clipboard cross-platform
+async function copyToClipboard(text) {
+  return new Promise((resolve, reject) => {
+    const platform = process.platform;
+    let command;
+    
+    if (platform === 'darwin') {
+      // macOS
+      command = 'pbcopy';
+    } else if (platform === 'win32') {
+      // Windows
+      command = 'clip';
+    } else {
+      // Linux
+      command = 'xclip -selection clipboard';
+    }
+    
+    const proc = exec(command, (error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+    
+    proc.stdin.write(text);
+    proc.stdin.end();
+  });
+}
 
 async function main() {
   // Leggi l'URL dagli argomenti del terminale
@@ -202,10 +232,16 @@ async function main() {
     
     if (validVideoUrls.length > 0) {
       // Copia nella clipboard (uno per riga)
-    //   const clipboardContent = validVideoUrls.join('\n');
-    //   await clipboardy.write(clipboardContent);
-      console.log('📋 URL video copiati nella clipboard!');
-      console.log(`   Puoi fare CTRL+V per incollare ${validVideoUrls.length} URL\n`);
+      const clipboardContent = validVideoUrls.join('\n');
+      
+      try {
+        await copyToClipboard(clipboardContent);
+        console.log('📋 URL video copiati nella clipboard!');
+        console.log(`   Puoi fare CTRL+V per incollare ${validVideoUrls.length} URL\n`);
+      } catch (error) {
+        console.log('⚠️  Impossibile copiare nella clipboard automaticamente');
+        console.log('   Gli URL sono comunque salvati nei file video_urls.txt e video_urls.json\n');
+      }
       
       // Pronuncia "SUCATO"
       console.log('🎉 SUCATO!\n');
