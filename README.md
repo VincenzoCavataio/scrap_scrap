@@ -21,6 +21,13 @@ node --version
 npm install
 ```
 
+**Nota per Linux:** Se usi Linux, installa anche `xclip` per la clipboard:
+```bash
+sudo apt-get install xclip  # Ubuntu/Debian
+# oppure
+sudo yum install xclip      # RedHat/Fedora
+```
+
 ## 🚀 Utilizzo
 
 ```bash
@@ -59,9 +66,19 @@ Lo script genera 2 file:
 
 ## ⚙️ Configurazione
 
+### Numero di retry
+
+Modifica `scraper.js` alla riga 7 per cambiare il numero di tentativi:
+
+```javascript
+const MAX_RETRIES = 3; // Cambia questo numero (default: 3)
+```
+
+Ogni episodio verrà ritentato fino a `MAX_RETRIES` volte se fallisce.
+
 ### Modalità invisibile (headless)
 
-Modifica `scraper.js` alla riga 36:
+Modifica `scraper.js` alla riga 41:
 
 ```javascript
 headless: true  // false = vedi il browser, true = invisibile
@@ -69,7 +86,7 @@ headless: true  // false = vedi il browser, true = invisibile
 
 ### Aumentare timeout
 
-Se il sito è lento, aumenta il timeout alla riga 71:
+Se il sito è lento, aumenta il timeout alla riga 76:
 
 ```javascript
 await newPage.waitForSelector('#player-iframe', { timeout: 30000 }); // 30 secondi invece di 15
@@ -84,6 +101,7 @@ await newPage.waitForSelector('#player-iframe', { timeout: 30000 }); // 30 secon
    - Clicca su `#alternative`
    - Aspetta l'iframe `#player-iframe`
    - Estrae l'URL del video
+   - **Se fallisce, riprova fino a 3 volte** (configurabile)
 4. Salva tutto nei file di output
 5. **Copia gli URL nella clipboard** (pronti per CTRL+V)
 6. **Pronuncia "SUCATO"** 🎉
