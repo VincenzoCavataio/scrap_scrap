@@ -1,4 +1,4 @@
-# Video Scraper - Estrattore di URL Video
+# SUCATO - Video Scraper - Estrattore di URL Video
 
 Un'applicazione Node.js modulare che estrae automaticamente gli URL dei video da una pagina web di episodi, li salva in file e li copia nella clipboard.
 
